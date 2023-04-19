@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Login extends React.Component {
   state = {
     email: '',
     name: '',
-    enable: true,
+    isValidateButton: true,
   };
 
   validationLogin = () => {
@@ -12,11 +13,11 @@ class Login extends React.Component {
     const { email, name } = this.state;
     if (email.includes('@') && email.includes('.com') && name.length >= minLength) {
       this.setState({
-        enable: false,
+        isValidateButton: false,
       });
     } else {
       this.setState({
-        enable: true,
+        isValidateButton: true,
       });
     }
   };
@@ -28,8 +29,21 @@ class Login extends React.Component {
     }, this.validationLogin);
   };
 
+  buttonRequestApi = async () => {
+    const URL_TOKEN = 'https://opentdb.com/api_token.php?command=request';
+    const response = await fetch(URL_TOKEN);
+    const data = await response.json();
+    localStorage.setItem('token', data.token);
+    // redirect
+    if (data.length !== 0) {
+      const { history } = this.props;
+
+      history.push('/game');
+    }
+  };
+
   render() {
-    const { email, name, enable } = this.state;
+    const { email, name, isValidateButton } = this.state;
     return (
       <main>
         <form>
@@ -56,8 +70,8 @@ class Login extends React.Component {
           <button
             data-testid="btn-play"
             type="button"
-            disabled={ enable }
-            onClick={ this.handleClick }
+            disabled={ isValidateButton }
+            onClick={ this.buttonRequestApi }
           >
             Play
           </button>
@@ -67,5 +81,9 @@ class Login extends React.Component {
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.shape().isRequired,
+};
 
 export default Login;
