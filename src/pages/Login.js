@@ -33,7 +33,7 @@ class Login extends React.Component {
     const URL_TOKEN = 'https://opentdb.com/api_token.php?command=request';
     const response = await fetch(URL_TOKEN);
     const data = await response.json();
-    localStorage.setItem('token', JSON.stringify(data.token));
+    localStorage.setItem('token', data.token);
     // redirect
     if (data.length !== 0) {
       const { history } = this.props;
