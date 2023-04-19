@@ -37,6 +37,7 @@ class Login extends React.Component {
     // redirect
     if (data.length !== 0) {
       const { history } = this.props;
+
       history.push('/game');
     }
   };
