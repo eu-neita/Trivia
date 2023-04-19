@@ -1,8 +1,11 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Login from './pages/Login';
+
 import logo from './trivia.png';
 import './App.css';
+
+import Configuracoes from './components/Configuracoes';
 
 export default function App() {
   return (
@@ -14,6 +17,8 @@ export default function App() {
       <main>
         <Switch>
           <Route exact path="/" component={ Login } />
+
+          <Route exact path="/config" component={ Configuracoes } />
         </Switch>
       </main>
     </div>
