@@ -38,13 +38,12 @@ class Login extends React.Component {
     const URL_TOKEN = 'https://opentdb.com/api_token.php?command=request';
     const response = await fetch(URL_TOKEN);
     const data = await response.json();
-    // redirect
+
     if (data.response_code === 0) {
+      dispatch(actionPlayer({ email, name }));
       localStorage.setItem('token', data.token);
       history.push('/game');
     }
-
-    dispatch(actionPlayer({ email, name }));
   };
 
   handleSettings = () => {
