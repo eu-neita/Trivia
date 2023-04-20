@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Header from '../components/Header';
+import Loading from '../components/Loading';
 import '../Game.css';
 
 class Game extends Component {
@@ -17,7 +18,6 @@ class Game extends Component {
   }
 
   fetchApiQuestion = async () => {
-    this.setState({ index: 0 });
     const RESPONSE_ERROR_CODE = 3;
     const token = localStorage.getItem('token');
     const URL = `https://opentdb.com/api.php?amount=5&token=${token}`;
@@ -82,37 +82,37 @@ class Game extends Component {
       <div>
         <Header />
         {
-          !isLoading ? (
-            <>
-              <p data-testid="question-category">{questionIndex.category}</p>
-              <p data-testid="question-text">{questionIndex.question}</p>
-            </>
-          ) : (<p>...Loading</p>)
+          isLoading
+            ? <Loading />
+            : (
+              <div data-testid="answer-options">
+                <p data-testid="question-category">{questionIndex.category}</p>
+                <p data-testid="question-text">{questionIndex.question}</p>
+                {
+                  shuffledArray.map(({ text, isCorrect }) => {
+                    if (!isCorrect) {
+                      AnswerIndex += 1;
+                    }
+                    return (
+                      <button
+                        className={
+                          this.ColorChange(answers[0].text, text)
+                        }
+                        onClick={ () => this.setQuestionChosed(text) }
+                        key={ text }
+                        type="button"
+                        data-testid={
+                          isCorrect ? 'correct-answer' : `wrong-answer-${AnswerIndex}`
+                        }
+                      >
+                        {text}
+                      </button>
+                    );
+                  })
+                }
+              </div>
+            )
         }
-        <div data-testid="answer-options">
-          {
-            shuffledArray.map(({ text, isCorrect }) => {
-              if (!isCorrect) {
-                AnswerIndex += 1;
-              }
-              return (
-                <button
-                  className={
-                    this.ColorChange(answers[0].text, text)
-                  }
-                  onClick={ () => this.setQuestionChosed(text) }
-                  key={ text }
-                  type="button"
-                  data-testid={
-                    isCorrect ? 'correct-answer' : `wrong-answer-${AnswerIndex}`
-                  }
-                >
-                  {text}
-                </button>
-              );
-            })
-          }
-        </div>
       </div>
     );
   }
