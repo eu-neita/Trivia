@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import logo from '../images/trivia.png';
 import { actionPlayer } from '../redux/actions';
 
 class Login extends React.Component {
@@ -46,42 +47,59 @@ class Login extends React.Component {
     dispatch(actionPlayer({ email, name }));
   };
 
+  handleSettings = () => {
+    const { history } = this.props;
+    history.push('/settings');
+  };
+
   render() {
     const { email, name, isValidateButton } = this.state;
     return (
-      <main>
-        <form>
-          <label>
-            Email:
-            <input
-              data-testid="input-gravatar-email"
-              type="email"
-              name="email"
-              value={ email }
-              onChange={ this.handleChange }
-            />
-          </label>
-          <label>
-            Name:
-            <input
-              data-testid="input-player-name"
-              type="text"
-              name="name"
-              value={ name }
-              onChange={ this.handleChange }
-            />
-          </label>
-          <button
-            data-testid="btn-play"
-            type="button"
-            disabled={ isValidateButton }
-            onClick={ this.buttonRequestApi }
-          >
-            Play
-          </button>
-
-        </form>
-      </main>
+      <div>
+        <header className="App-header">
+          <img src={ logo } className="App-logo" alt="logo" />
+          <p>SUA VEZ</p>
+        </header>
+        <main>
+          <form>
+            <label>
+              Email:
+              <input
+                data-testid="input-gravatar-email"
+                type="email"
+                name="email"
+                value={ email }
+                onChange={ this.handleChange }
+              />
+            </label>
+            <label>
+              Name:
+              <input
+                data-testid="input-player-name"
+                type="text"
+                name="name"
+                value={ name }
+                onChange={ this.handleChange }
+              />
+            </label>
+            <button
+              data-testid="btn-play"
+              type="button"
+              disabled={ isValidateButton }
+              onClick={ this.buttonRequestApi }
+            >
+              Play
+            </button>
+            <button
+              data-testid="btn-settings"
+              type="button"
+              onClick={ this.handleSettings }
+            >
+              Settings
+            </button>
+          </form>
+        </main>
+      </div>
     );
   }
 }
