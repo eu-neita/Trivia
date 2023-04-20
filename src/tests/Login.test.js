@@ -20,15 +20,13 @@ describe('Testes da página de App', () => {
     const inputEmailEl = screen.getByLabelText(/email/i);
     const inputNameEl = screen.getByLabelText(/name/i);
     const playBtn = screen.getByRole('button', { name: /play/i });
-    // const configBtn = screen.getByRole('button', { name: /configurações/i });
+    expect(screen.getByRole('button', { name: /settings/i })).toBeInTheDocument();
     
-    // expect(configBtn).toBeDisabled();
     expect(playBtn).toBeDisabled();
 
     userEvent.type(inputNameEl, 'João');
     userEvent.type(inputEmailEl, 'joao.teste@hotmail.com');
 
-    // expect(configBtn).toBeEnabled();
     expect(playBtn).toBeEnabled();
   });
 
@@ -74,28 +72,21 @@ describe('Testes da página de App', () => {
     })
   });
 
-  // test('Verifica se ao clicar no botão de configurações, aparece 3 selects e um botão de jogar', () => {
-  //   const { history } = renderWithRouterAndRedux(<App />);
+  test('Verifica se ao clicar no botão de configurações, aparece 3 selects e um botão de jogar', () => {
+    const { history } = renderWithRouterAndRedux(<App />);
 
-  //   const inputNameEl = screen.getByLabelText(/name/i);
-  //   const inputEmailEl = screen.getByLabelText(/email/i);
-  //   const configBtn = screen.getByRole('button', { name: /configurações/i });
+    const inputNameEl = screen.getByLabelText(/name/i);
+    const inputEmailEl = screen.getByLabelText(/email/i);
+    const configBtn = screen.getByRole('button', { name: /settings/i });
 
-  //   userEvent.type(inputNameEl, 'João');
-  //   userEvent.type(inputEmailEl, 'joao.teste@hotmail.com');
-  //   userEvent.click(configBtn);
+    userEvent.type(inputNameEl, 'João');
+    userEvent.type(inputEmailEl, 'joao.teste@hotmail.com');
+    userEvent.click(configBtn);
     
-  //   const selects = screen.getAllByRole('combobox'); 
-  //   expect(selects[0].value).toBe('Categoria');
-  //   expect(selects[1].value).toBe('Dificuldade');
-  //   expect(selects[2].value).toBe('Tipo');
-
-  //   const playBtn = screen.getByRole('button', { name: /jogar/i });
-  //   expect(playBtn).toBeInTheDocument();
-  //   userEvent.click(playBtn)
-
-  //   waitFor(() => {
-  //      expect(pathname).toBe('/game');
- //    })
-  // });
+    const selects = screen.getAllByRole('combobox'); 
+    expect(selects[0].value).toBe('Categoria');
+    expect(selects[1].value).toBe('Dificuldade');
+    expect(selects[2].value).toBe('Tipo');
+    expect(screen.getByRole('heading', { level: 1, name: /configurações/i })).toBeInTheDocument();
+  });
 })
