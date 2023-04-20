@@ -34,8 +34,8 @@ class FeedbackMessage extends Component {
 // Quando o score estiver no estado, refatorar essa parte para receber ele.
 
 // const mapStateToProps = (state) => ({
-//   assertions: state.scoreReducer.assertions,
-//   score: state.scoreReducer.score,
+//   assertions: state.player.assertions,
+//   score: state.player.score,
 // });
 
 // FeedbackMessage.propTypes = {
