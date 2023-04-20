@@ -1,9 +1,6 @@
-export const ADD_USER = 'ADD_USER';
+export const PLAYER = 'PLAYER';
 
-export const addUserAction = (name, email) => ({
-  type: ADD_USER,
-  payload: {
-    name,
-    email,
-  },
+export const actionPlayer = (player) => ({
+  type: PLAYER,
+  payload: player,
 });
