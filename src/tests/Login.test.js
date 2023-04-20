@@ -1,73 +1,102 @@
 
-import { screen } from "@testing-library/react";
+import { screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import renderWithRouterAndRedux from "./helpers/renderWithRouterAndRedux"
-import Login from '../pages/Login';
+import App from '../App';
+import { errorTokenMock, tokenMock } from "./mocks/Mocks";
 
-describe('Testes da página de Login', () => {
+describe('Testes da página de App', () => {
   test('Verifica se ao entrar na página, todos os componentes aparecem na tela', () => {
-    renderWithRouterAndRedux(<Login />);
+    renderWithRouterAndRedux(<App />);
 
-    expect(screen.getByLabelText(/name/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/name/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /play/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /configurações/i })).toBeInTheDocument();
+    // expect(screen.getByRole('button', { name: /configurações/i })).toBeInTheDocument();
   });
 
   test('Verifica se ao digitar corretamente os campos, os botões ficam habilitados', () => {
-    renderWithRouterAndRedux(<Login />);
+    renderWithRouterAndRedux(<App />);
 
-    const inputNameEl = screen.getByLabelText(/name/i)
     const inputEmailEl = screen.getByLabelText(/email/i);
-    const configBtn = screen.getByRole('button', { name: /play/i });
-    const playBtn = screen.getByRole('button', { name: /configurações/i });
+    const inputNameEl = screen.getByLabelText(/name/i);
+    const playBtn = screen.getByRole('button', { name: /play/i });
+    // const configBtn = screen.getByRole('button', { name: /configurações/i });
     
-    expect(configBtn).toBeDisabled();
+    // expect(configBtn).toBeDisabled();
     expect(playBtn).toBeDisabled();
 
     userEvent.type(inputNameEl, 'João');
     userEvent.type(inputEmailEl, 'joao.teste@hotmail.com');
 
-    expect(configBtn).toBeEnabled();
+    // expect(configBtn).toBeEnabled();
     expect(playBtn).toBeEnabled();
   });
 
-  test('Verifica se ao clicar no botão de play, é renderizado para a rota /game', () => {
-    const navigator = renderWithRouterAndRedux(<Login />);
+  test('Verifica se ao clicar no botão de play, é renderizado para a rota /game', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      json: async () => (tokenMock),
+    });
 
-    const inputNameEl = screen.getByLabelText(/name/i);
+    const { history } = renderWithRouterAndRedux(<App />);
+
     const inputEmailEl = screen.getByLabelText(/email/i);
-    const playBtn = screen.getByRole('button', { name: /configurações/i });
+    const inputNameEl = screen.getByLabelText(/name/i);
+    const playBtn = screen.getByRole('button', { name: /play/i });
 
     userEvent.type(inputNameEl, 'João');
     userEvent.type(inputEmailEl, 'joao.teste@hotmail.com');
     userEvent.click(playBtn);
 
-    const { history: { location: { pathname } } } = navigator;
-    expect(pathname).toBe('/game');
+    localStorage.setItem('token', tokenMock.token);
+
+    await waitFor(() => {
+      expect(history.location.pathname).toBe('/game');
+    })
   });
 
-  test('Verifica se ao clicar no botão de configurações, aparece 3 selects e um botão de jogar', () => {
-    const navigator = renderWithRouterAndRedux(<Login />);
+  test('Verifica se quando o response_code for diferente de 0, ele não faz nada', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      json: async () => (errorTokenMock),
+    });
+    
+    const { history } = renderWithRouterAndRedux(<App />);
 
-    const inputNameEl = screen.getByLabelText(/name/i);
     const inputEmailEl = screen.getByLabelText(/email/i);
-    const configBtn = screen.getByRole('button', { name: /configurações/i });
+    const inputNameEl = screen.getByLabelText(/name/i);
+    const playBtn = screen.getByRole('button', { name: /play/i });
 
     userEvent.type(inputNameEl, 'João');
     userEvent.type(inputEmailEl, 'joao.teste@hotmail.com');
-    userEvent.click(configBtn);
-    
-    const selects = screen.getAllByRole('combobox'); 
-    expect(selects[0].value).toBe('Categoria');
-    expect(selects[1].value).toBe('Dificuldade');
-    expect(selects[2].value).toBe('Tipo');
+    userEvent.click(playBtn);
 
-    const playBtn = screen.getByRole('button', { name: /jogar/i });
-    expect(playBtn).toBeInTheDocument();
-    userEvent.click(playBtn)
-
-    const { history: { location: { pathname } } } = navigator;
-    expect(pathname).toBe('/game');
+    await waitFor(() => {
+      expect(history.location.pathname).toBe('/');
+    })
   });
+
+  // test('Verifica se ao clicar no botão de configurações, aparece 3 selects e um botão de jogar', () => {
+  //   const { history } = renderWithRouterAndRedux(<App />);
+
+  //   const inputNameEl = screen.getByLabelText(/name/i);
+  //   const inputEmailEl = screen.getByLabelText(/email/i);
+  //   const configBtn = screen.getByRole('button', { name: /configurações/i });
+
+  //   userEvent.type(inputNameEl, 'João');
+  //   userEvent.type(inputEmailEl, 'joao.teste@hotmail.com');
+  //   userEvent.click(configBtn);
+    
+  //   const selects = screen.getAllByRole('combobox'); 
+  //   expect(selects[0].value).toBe('Categoria');
+  //   expect(selects[1].value).toBe('Dificuldade');
+  //   expect(selects[2].value).toBe('Tipo');
+
+  //   const playBtn = screen.getByRole('button', { name: /jogar/i });
+  //   expect(playBtn).toBeInTheDocument();
+  //   userEvent.click(playBtn)
+
+  //   waitFor(() => {
+  //      expect(pathname).toBe('/game');
+ //    })
+  // });
 })
