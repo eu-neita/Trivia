@@ -1,7 +1,14 @@
-import player from './player';
+import { combineReducers } from 'redux';
 
-const { combineReducers } = require('redux');
+const INITIAL_STATE = {};
 
-const rootReducer = combineReducers({ player });
+const exampleReducer = (state = INITIAL_STATE, action) => {
+  switch (action.type) {
+  default:
+    return state;
+  }
+};
+
+const rootReducer = combineReducers({ exampleReducer });
 
 export default rootReducer;
