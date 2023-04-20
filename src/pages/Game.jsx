@@ -4,6 +4,7 @@ import _ from 'lodash';
 import Header from '../components/Header';
 import Loading from '../components/Loading';
 import '../Game.css';
+import Timer from '../components/Timer';
 
 class Game extends Component {
   state = {
@@ -81,6 +82,7 @@ class Game extends Component {
     return (
       <div>
         <Header />
+        <Timer />
         {
           isLoading
             ? <Loading />
