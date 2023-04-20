@@ -22,7 +22,7 @@ class Header extends Component {
     const { image, score } = this.state;
     const { name } = this.props;
     return (
-      <div>
+      <header>
         <img
           data-testid="header-profile-picture"
           src={ image }
@@ -30,7 +30,7 @@ class Header extends Component {
         />
         <p data-testid="header-player-name">{ name }</p>
         <p data-testid="header-score">{ score }</p>
-      </div>
+      </header>
     );
   }
 }
@@ -41,8 +41,8 @@ Header.propTypes = {
 
 };
 
-const mapStateToProps = ({ playerReducer }) => ({
-  ...playerReducer,
+const mapStateToProps = ({ player }) => ({
+  ...player,
 });
 
 export default connect(mapStateToProps)(Header);

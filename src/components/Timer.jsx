@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import iconTimer from '../images/iconTimer.svg';
+import { toDesabiliteAnswers, toHabiliteAnswers } from '../redux/actions';
 
 class Timer extends Component {
   constructor() {
@@ -10,7 +13,9 @@ class Timer extends Component {
   }
 
   componentDidMount() {
-    this.setState({ timeRemaining: 5 });
+    const { dispatch } = this.props;
+    dispatch(toHabiliteAnswers());
+    this.setState({ timeRemaining: 30 });
   }
 
   componentDidUpdate() {
@@ -21,9 +26,11 @@ class Timer extends Component {
   }
 
   handleTime = () => {
+    const { dispatch } = this.props;
     const { timeRemaining } = this.state;
     const timeout = 1000;
     if (timeRemaining === 0) {
+      dispatch(toDesabiliteAnswers());
       this.setState({ timeRemaining: 'Acabou o tempo!' });
       return;
     }
@@ -46,4 +53,8 @@ class Timer extends Component {
   }
 }
 
-export default Timer;
+Timer.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
+
+export default connect()(Timer);
