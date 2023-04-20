@@ -1,6 +1,5 @@
 /* eslint-disable react/no-danger */
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Loading from './Loading';
 import '../Game.css';
@@ -12,6 +11,7 @@ class Questions extends Component {
     isLoading: true,
     questionNumber: 0,
     questionChosed: '',
+    isResponse: false,
   };
 
   componentDidMount() {
@@ -30,7 +30,16 @@ class Questions extends Component {
   setQuestionChosed = (text) => {
     this.setState({
       questionChosed: text,
+      isResponse: true,
     });
+  };
+
+  nextQuestion = () => {
+    this.setState((prevState) => ({
+      questionNumber: prevState.questionNumber + 1,
+      isResponse: false,
+      questionChosed: '',
+    }));
   };
 
   colorChangeClass = (answers, text) => {
@@ -45,7 +54,7 @@ class Questions extends Component {
   };
 
   render() {
-    const { questions, isLoading, questionNumber } = this.state;
+    const { questions, isLoading, questionNumber, isResponse } = this.state;
     const NUM_QUESTIONS = 5;
 
     if (questionNumber >= NUM_QUESTIONS) {
@@ -116,15 +125,13 @@ class Questions extends Component {
               </div>
             )
         }
+        {
+          isResponse
+           && <button data-testid="btn-next" onClick={ this.nextQuestion }>Next</button>
+        }
       </div>
     );
   }
 }
-
-Questions.propTypes = {
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-};
 
 export default Questions;
