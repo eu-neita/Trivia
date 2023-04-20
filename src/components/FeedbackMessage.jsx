@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 // Remover essa linha e descomentar linha 10 quando tiver o valor do score;
@@ -7,13 +6,8 @@ const assertions = 2;
 const score = 130;
 
 class FeedbackMessage extends Component {
-  playAgain = () => {
-    const { history } = this.props;
-    history.push('/');
-  };
-
   render() {
-    // const { assertions, score } = this.props;
+    // const { assertions, score, } = this.props;
     const idealAssertions = 3;
     return (
       <div>
@@ -32,14 +26,6 @@ class FeedbackMessage extends Component {
           {' '}
           <span data-testid="feedback-total-question">{ assertions }</span>
         </p>
-
-        <button
-          type="button"
-          onClick={ this.playAgain }
-          data-testid="btn-play-again"
-        >
-          Play Again
-        </button>
       </div>
     );
   }
@@ -52,12 +38,9 @@ class FeedbackMessage extends Component {
 //   score: state.scoreReducer.score,
 // });
 
-FeedbackMessage.propTypes = {
-  // assertions: PropTypes.number.isRequired,
-  // score: PropTypes.number.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
-  }).isRequired,
-};
+// FeedbackMessage.propTypes = {
+//   assertions: PropTypes.number.isRequired,
+//   score: PropTypes.number.isRequired,
+// };
 
 export default connect()(FeedbackMessage);
