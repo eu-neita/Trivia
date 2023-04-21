@@ -47,6 +47,7 @@ class Questions extends Component {
 
   render() {
     const { isAnswersDisabled } = this.props;
+    console.log(isAnswersDisabled);
     const { questions, isLoading, questionNumber } = this.state;
     const NUM_QUESTIONS = 5;
 
@@ -98,10 +99,10 @@ class Questions extends Component {
                     return (
                       <button
                         id="button_style_sheet"
-                        disabled={ isAnswersDisabled }
                         className={
                           this.colorChangeClass(answers[0].text, text)
                         }
+                        disabled={ isAnswersDisabled }
                         onClick={ () => this.setQuestionChosed(text) }
                         key={ text }
                         data-testid={
@@ -127,8 +128,8 @@ Questions.propTypes = {
   isAnswersDisabled: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = ({ gameReducer }) => ({
-  ...gameReducer,
+const mapStateToProps = ({ game }) => ({
+  ...game,
 });
 
 export default connect(mapStateToProps)(Questions);
