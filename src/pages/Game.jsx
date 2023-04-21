@@ -21,10 +21,11 @@ class Game extends Component {
   };
 
   render() {
+    const { history } = this.props;
     return (
       <div>
         <Header />
-        <Questions />
+        <Questions history={ history } />
       </div>
     );
   }
