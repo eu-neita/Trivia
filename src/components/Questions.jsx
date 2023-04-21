@@ -1,5 +1,6 @@
 /* eslint-disable react/no-danger */
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Loading from './Loading';
 import '../Game.css';
@@ -35,11 +36,19 @@ class Questions extends Component {
   };
 
   nextQuestion = () => {
-    this.setState((prevState) => ({
-      questionNumber: prevState.questionNumber + 1,
-      isResponse: false,
-      questionChosed: '',
-    }));
+    const { questionNumber } = this.state;
+    const { history } = this.props;
+    console.log(questionNumber);
+    const maxIndex = 4;
+    if (questionNumber < maxIndex) {
+      this.setState((prevState) => ({
+        questionNumber: prevState.questionNumber + 1,
+        isResponse: false,
+        questionChosed: '',
+      }));
+    } else {
+      history.push('/feedback');
+    }
   };
 
   colorChangeClass = (answers, text) => {
@@ -133,5 +142,11 @@ class Questions extends Component {
     );
   }
 }
+
+Questions.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default Questions;
