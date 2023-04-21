@@ -25,7 +25,7 @@ class Game extends Component {
     return (
       <div>
         <Header />
-        <Questions history={ history }/>
+        <Questions history={ history } />
       </div>
     );
   }
