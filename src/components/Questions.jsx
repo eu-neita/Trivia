@@ -13,6 +13,7 @@ class Questions extends Component {
     isLoading: true,
     questionNumber: 0,
     questionChosed: '',
+    isResponse: false,
   };
 
   componentDidMount() {
@@ -31,7 +32,24 @@ class Questions extends Component {
   setQuestionChosed = (text) => {
     this.setState({
       questionChosed: text,
+      isResponse: true,
     });
+  };
+
+  nextQuestion = () => {
+    const { questionNumber } = this.state;
+    const { history } = this.props;
+    console.log(questionNumber);
+    const maxIndex = 4;
+    if (questionNumber < maxIndex) {
+      this.setState((prevState) => ({
+        questionNumber: prevState.questionNumber + 1,
+        isResponse: false,
+        questionChosed: '',
+      }));
+    } else {
+      history.push('/feedback');
+    }
   };
 
   colorChangeClass = (answers, text) => {
@@ -47,8 +65,8 @@ class Questions extends Component {
 
   render() {
     const { isAnswersDisabled } = this.props;
-    console.log(isAnswersDisabled);
-    const { questions, isLoading, questionNumber } = this.state;
+    const { questions, isLoading, questionNumber, isResponse } = this.state;
+
     const NUM_QUESTIONS = 5;
 
     if (questionNumber >= NUM_QUESTIONS) {
@@ -118,6 +136,10 @@ class Questions extends Component {
                 }
               </div>
             )
+        }
+        {
+          isResponse
+           && <button data-testid="btn-next" onClick={ this.nextQuestion }>Next</button>
         }
       </div>
     );

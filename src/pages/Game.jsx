@@ -23,11 +23,12 @@ class Game extends Component {
   };
 
   render() {
+    const { history } = this.props;
     return (
       <div>
         <Header />
         <main>
-          <Questions />
+        <Questions history={ history } />
           <Timer />
         </main>
       </div>
