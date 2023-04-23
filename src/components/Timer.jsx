@@ -5,34 +5,32 @@ import iconTimer from '../images/iconTimer.svg';
 import { countDown, toDisableAnswers, toEnableAnswers } from '../redux/actions';
 
 class Timer extends Component {
-  constructor() {
-    super();
-    this.state = {
-      timeRemaining: 0,
-    };
-  }
 
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch(toEnableAnswers());
+    // const { dispatch } = this.props;
+    // dispatch(toEnableAnswers());
   }
 
   componentDidUpdate() {
     const { timeRemaining } = this.props;
-    if (timeRemaining !== 'Acabou o tempo!') {
-      this.handleTime();
+    if (timeRemaining === 'Acabou o tempo!') {
+      clearTimeout(this.timeout);
+      return;
     }
+    this.handleTime();
   }
+
 
   handleTime = () => {
     const { dispatch, timeRemaining } = this.props;
     const timeout = 1000;
     if (timeRemaining === '0') {
       dispatch(toDisableAnswers());
+      clearTimeout(this.timeout);
       return;
     }
-    
-    setTimeout(() => {
+
+    this.timeout = setTimeout(() => {
       const time = (Number(timeRemaining) - 1).toString();
       dispatch(countDown(time))
     }, timeout);

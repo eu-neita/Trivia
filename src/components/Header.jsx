@@ -9,8 +9,8 @@ class Header extends Component {
   };
 
   componentDidMount() {
-    const { email } = this.props;
-    const hash = md5(email).toString();
+    const { gravatarEmail } = this.props;
+    const hash = md5(gravatarEmail).toString();
     const image = `https://www.gravatar.com/avatar/${hash}`;
     this.setState({
       image,
@@ -36,7 +36,7 @@ class Header extends Component {
 
 Header.propTypes = {
   name: PropTypes.string.isRequired,
-  email: PropTypes.string.isRequired,
+  gravatarEmail: PropTypes.string.isRequired,
 
 };
 

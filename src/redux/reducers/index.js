@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import { COUNTDOWN, DISABLE_ANSWERS, ENABLE_ANSWERS, PLAYER } from '../actions';
+import { COUNTDOWN, DISABLE_ANSWERS, ENABLE_ANSWERS, PLAYER, SUM_SCORE } from '../actions';
 
 const INITIAL_STATE_PLAYER = {
-  email: '',
+  gravatarEmail: '',
   name: '',
   score: 0,
 };
@@ -13,14 +13,20 @@ const INITIAL_STATE_GAME = {
 };
 
 const player = (state = INITIAL_STATE_PLAYER, action) => {
+  const { score } = state;
   const { type, payload } = action;
   switch (type) {
   case PLAYER:
     return {
       ...state,
-      email: payload.email,
+      gravatarEmail: payload.email,
       name: payload.name,
     };
+  case SUM_SCORE:
+    return {
+      ...state,
+      score: (Number(score) + payload),
+    }
   default:
     return state;
   }
