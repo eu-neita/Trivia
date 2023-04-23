@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import iconTimer from '../images/iconTimer.svg';
-import { toDesabiliteAnswers, toHabiliteAnswers } from '../redux/actions';
+import { countDown, toDisableAnswers, toEnableAnswers } from '../redux/actions';
 
 class Timer extends Component {
   constructor() {
@@ -14,47 +14,49 @@ class Timer extends Component {
 
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch(toHabiliteAnswers());
-    this.setState({ timeRemaining: 30 });
+    dispatch(toEnableAnswers());
   }
 
   componentDidUpdate() {
-    const { timeRemaining } = this.state;
-    if (timeRemaining >= 0) {
+    const { timeRemaining } = this.props;
+    if (timeRemaining !== 'Acabou o tempo!') {
       this.handleTime();
     }
   }
 
   handleTime = () => {
-    const { dispatch } = this.props;
-    const { timeRemaining } = this.state;
+    const { dispatch, timeRemaining } = this.props;
     const timeout = 1000;
-    if (timeRemaining === 0) {
-      dispatch(toDesabiliteAnswers());
-      this.setState({ timeRemaining: 'Acabou o tempo!' });
+    if (timeRemaining === '0') {
+      dispatch(toDisableAnswers());
       return;
     }
+    
     setTimeout(() => {
-      this.setState({
-        timeRemaining: (Number(timeRemaining) - 1),
-      });
+      const time = (Number(timeRemaining) - 1).toString();
+      dispatch(countDown(time))
     }, timeout);
   };
 
   render() {
-    const { timeRemaining } = this.state;
+    const { timeRemaining } = this.props;
 
     return (
       <section>
         <img src={ iconTimer } alt="Timer" />
-        {`Tempo: ${timeRemaining} ${timeRemaining >= 0 ? 's' : ''}`}
+        {`Tempo: ${timeRemaining} ${timeRemaining === 'Acabou o tempo!' ? '' : 's'}`}
       </section>
     );
   }
 }
 
+const mapStateToProps = ({ game }) => ({
+  ...game,
+});
+
 Timer.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  timeRemaining: PropTypes.string.isRequired,
 };
 
-export default connect()(Timer);
+export default connect(mapStateToProps)(Timer);

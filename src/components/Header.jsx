@@ -6,7 +6,6 @@ import md5 from 'crypto-js/md5';
 class Header extends Component {
   state = {
     image: '',
-    score: 0,
   };
 
   componentDidMount() {
@@ -19,8 +18,8 @@ class Header extends Component {
   }
 
   render() {
-    const { image, score } = this.state;
-    const { name } = this.props;
+    const { image } = this.state;
+    const { name, score } = this.props;
     return (
       <header>
         <img
