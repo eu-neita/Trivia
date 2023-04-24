@@ -9,15 +9,14 @@ class Ranking extends Component {
 
   render() {
     const rankingList = JSON.parse(localStorage.getItem('ranking'));
-    let userIndex = -1;
+    let userIndex = 0;
     return (
       <main>
         <h1 data-testid="ranking-title">Ranking</h1>
         <section>
           { rankingList.sort((a, b) => b.score - a.score)
             .map(({ name, score, picture }) => {
-              userIndex += 1;
-              return (
+              const userElement = (
                 <div key={ name }>
                   <img src={ picture } alt={ name } />
                   <h5 data-testid={ `player-name-${userIndex}` }>{name}</h5>
@@ -28,6 +27,8 @@ class Ranking extends Component {
                   </span>
                 </div>
               );
+              userIndex += 1;
+              return userElement;
             })}
         </section>
         <button
