@@ -26,7 +26,6 @@ class Questions extends Component {
   questionRequest = async () => {
     const fetch = await fetchQuest();
     const data = await fetch.json();
-    console.log(data.results);
     this.setState({
       questions: data.results,
       isLoading: false,
@@ -36,7 +35,6 @@ class Questions extends Component {
   handleQuestion = () => {
     const { questions, questionNumber } = this.state;
     const { dispatch } = this.props;
-    console.log(this.state);
     const actualQuestion = questions[questionNumber];
     let answersIndex = 0;
     const answers = [{
@@ -84,7 +82,8 @@ class Questions extends Component {
     const { questionNumber } = this.state;
     const { history } = this.props;
     const maxIndex = 4;
-    if (questionNumber <= maxIndex) {
+    console.log(questionNumber);
+    if (questionNumber < maxIndex) {
       const newQuestionNumber = questionNumber + 1;
       // this.setState((prevState) => ({
       //   questionNumber: prevState.questionNumber + 1,

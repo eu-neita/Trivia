@@ -9,6 +9,7 @@ const INITIAL_STATE_PLAYER = {
   gravatarEmail: '',
   name: '',
   score: 0,
+  assertions: 0,
 };
 
 const INITIAL_STATE_GAME = {
@@ -30,6 +31,7 @@ const player = (state = INITIAL_STATE_PLAYER, action) => {
     return {
       ...state,
       score: (Number(score) + payload),
+      assertions: state.assertions + 1,
     };
   default:
     return state;
