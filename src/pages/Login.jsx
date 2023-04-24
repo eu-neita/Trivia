@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
 import logo from '../images/trivia.png';
 import { actionPlayer } from '../redux/actions';
+import '../css/login.css';
 
 class Login extends React.Component {
   state = {
@@ -63,26 +64,28 @@ class Login extends React.Component {
         </header>
         <main>
           <form>
-            <label>
+            <label htmlFor="email-input">
               Email:
-              <input
-                data-testid="input-gravatar-email"
-                type="email"
-                name="email"
-                value={ email }
-                onChange={ this.handleChange }
-              />
             </label>
-            <label>
+            <input
+              data-testid="input-gravatar-email"
+              type="email"
+              name="email"
+              id="email-input"
+              value={ email }
+              onChange={ this.handleChange }
+            />
+            <label htmlFor="name-input" id="name-input-la">
               Name:
-              <input
-                data-testid="input-player-name"
-                type="text"
-                name="name"
-                value={ name }
-                onChange={ this.handleChange }
-              />
             </label>
+            <input
+              data-testid="input-player-name"
+              type="text"
+              name="name"
+              id="name-input"
+              value={ name }
+              onChange={ this.handleChange }
+            />
             <button
               data-testid="btn-play"
               type="button"
