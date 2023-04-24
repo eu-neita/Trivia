@@ -85,13 +85,13 @@ class Questions extends Component {
     const { history } = this.props;
     const maxIndex = 4;
     if (questionNumber <= maxIndex) {
-      const xablau = questionNumber + 1;
+      const newQuestionNumber = questionNumber + 1;
       // this.setState((prevState) => ({
       //   questionNumber: prevState.questionNumber + 1,
       //   isResponse: false,
       // }, this.handleQuestion));
       this.setState({
-        questionNumber: xablau,
+        questionNumber: newQuestionNumber,
         isResponse: false,
       }, this.handleQuestion);
     } else {
