@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap') ;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap') ;
+
 body {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  font-family: Montserrat , sans-serif;
 }
 
 .App {
@@ -30,13 +32,15 @@ body {
 
 .App-header {
   align-items: center;
-  background-color: #282c34;
+  background-color: transparent;
   color: white;
   display: flex;
   flex-direction: column;
+  font-family: Montserrat , sans-serif;
   font-size: calc(10px + 2vmin);
   justify-content: center;
-  min-height: 100vh;
+  min-height: 50vh;
+  text-shadow: 2px 4px 8px  black;
 }
 
 .App-link {
