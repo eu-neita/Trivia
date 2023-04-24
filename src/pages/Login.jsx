@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import md5 from 'crypto-js/md5';
 import logo from '../images/trivia.png';
 import { actionPlayer } from '../redux/actions';
 
@@ -38,9 +39,10 @@ class Login extends React.Component {
     const URL_TOKEN = 'https://opentdb.com/api_token.php?command=request';
     const response = await fetch(URL_TOKEN);
     const data = await response.json();
-
+    const hash = md5(email).toString();
+    const image = `https://www.gravatar.com/avatar/${hash}`;
     if (data.response_code === 0) {
-      dispatch(actionPlayer({ email, name }));
+      dispatch(actionPlayer({ email, name, image }));
       localStorage.setItem('token', data.token);
       history.push('/game');
     }

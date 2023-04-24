@@ -7,6 +7,7 @@ import {
 
 const INITIAL_STATE_PLAYER = {
   gravatarEmail: '',
+  gravatarImage: '',
   name: '',
   score: 0,
   assertions: 0,
@@ -24,8 +25,10 @@ const player = (state = INITIAL_STATE_PLAYER, action) => {
   case PLAYER:
     return {
       ...state,
+      gravatarImage: payload.image,
       gravatarEmail: payload.email,
       name: payload.name,
+      score: 0,
     };
   case SUM_SCORE:
     return {
