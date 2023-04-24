@@ -5,21 +5,21 @@ import { connect } from 'react-redux';
 class FeedbackMessage extends Component {
   handleLocalStorage = () => {
     const { score, gravatarImage, name } = this.props;
-    const getRanking = JSON.parse(localStorage.getItem('ranking'));
+    const rankingList = JSON.parse(localStorage.getItem('ranking'));
     const userInfo = { name, score, picture: gravatarImage };
-    if (!getRanking) {
+    if (!rankingList) {
       localStorage.setItem('ranking', JSON.stringify([userInfo]));
       return;
     }
-    const repeatedUser = getRanking.some((user) => user.name === name);
+    const repeatedUser = rankingList.some((user) => user.name === name);
     if (repeatedUser) {
-      const newRanking = getRanking.map((user) => (
+      const newRanking = rankingList.map((user) => (
         user.name === name ? { ...user, score } : user
       ));
       localStorage.setItem('ranking', JSON.stringify(newRanking));
       return;
     }
-    const newRanking = [...getRanking, userInfo];
+    const newRanking = [...rankingList, userInfo];
     localStorage.setItem('ranking', JSON.stringify(newRanking));
   };
 
