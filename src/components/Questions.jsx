@@ -1,17 +1,21 @@
 /* eslint-disable react/no-danger */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Loading from './Loading';
 import '../Game.css';
 import fetchQuest from '../services/fetchFunc';
+import { sumScore, toDisableAnswers, toEnableAnswers } from '../redux/actions';
 
 class Questions extends Component {
   state = {
     questions: [],
     isLoading: true,
     questionNumber: 0,
-    questionChosed: '',
+    actualQuestion: {},
+    answersOptions: [],
+    // questionChosed: '',
     isResponse: false,
   };
 
@@ -22,71 +26,91 @@ class Questions extends Component {
   questionRequest = async () => {
     const fetch = await fetchQuest();
     const data = await fetch.json();
+    console.log(data.results);
     this.setState({
       questions: data.results,
       isLoading: false,
+    }, this.handleQuestion);
+  };
+
+  handleQuestion = () => {
+    const { questions, questionNumber } = this.state;
+    const { dispatch } = this.props;
+    console.log(this.state);
+    const actualQuestion = questions[questionNumber];
+    let answersIndex = 0;
+    const answers = [{
+      text: actualQuestion.correct_answer,
+      isCorrect: true,
+    }, ...actualQuestion.incorrect_answers.map((answer) => {
+      answersIndex += 1;
+      return ({
+        text: answer,
+        isCorrect: false,
+        id: answersIndex,
+      });
+    }),
+    ];
+    const shuffledAnswers = _.shuffle(answers);
+    this.setState({
+      answersOptions: shuffledAnswers,
+      actualQuestion,
+    });
+    dispatch(toEnableAnswers());
+  };
+
+  handleAnswer = (isCorrect) => {
+    this.handleScore(isCorrect);
+    this.setState({
+      isResponse: true,
     });
   };
 
-  setQuestionChosed = (text) => {
-    this.setState({
-      questionChosed: text,
-      isResponse: true,
-    });
+  handleScore = (isCorrect) => {
+    const { timeRemaining, dispatch } = this.props;
+    if (!isCorrect) {
+      dispatch(toDisableAnswers());
+      return;
+    }
+    const difficultyPoints = { hard: 3, medium: 2, easy: 1 };
+    const { actualQuestion: { difficulty } } = this.state;
+    const defaultScore = 10;
+    const score = (Number(timeRemaining) * difficultyPoints[difficulty]) + defaultScore;
+    dispatch(sumScore(score));
+    dispatch(toDisableAnswers());
   };
 
   nextQuestion = () => {
     const { questionNumber } = this.state;
     const { history } = this.props;
-    console.log(questionNumber);
     const maxIndex = 4;
-    if (questionNumber < maxIndex) {
-      this.setState((prevState) => ({
-        questionNumber: prevState.questionNumber + 1,
+    if (questionNumber <= maxIndex) {
+      const newQuestionNumber = questionNumber + 1;
+      // this.setState((prevState) => ({
+      //   questionNumber: prevState.questionNumber + 1,
+      //   isResponse: false,
+      // }, this.handleQuestion));
+      this.setState({
+        questionNumber: newQuestionNumber,
         isResponse: false,
-        questionChosed: '',
-      }));
+      }, this.handleQuestion);
     } else {
       history.push('/feedback');
     }
   };
 
-  colorChangeClass = (answers, text) => {
-    const { questionChosed } = this.state;
-    if (!questionChosed) {
-      return 'Questions';
+  changeClassColor = (isCorrect) => {
+    const { isResponse } = this.state;
+    let classColor = 'option';
+    if (isResponse) {
+      classColor = isCorrect ? 'correct' : 'incorrect';
     }
-    if (text === answers) {
-      return 'correct';
-    }
-    return 'incorrect';
+    return classColor;
   };
 
   render() {
-    const { questions, isLoading, questionNumber, isResponse } = this.state;
-    const NUM_QUESTIONS = 5;
-
-    if (questionNumber >= NUM_QUESTIONS) {
-      this.setState({ isLoading: true });
-    }
-
-    const atualQuestion = questions[questionNumber];
-
-    let AnswerquestionNumber = 0;
-
-    if (isLoading) {
-      return;
-    }
-
-    const answers = [{
-      text: atualQuestion.correct_answer,
-      isCorrect: true,
-    }, ...atualQuestion.incorrect_answers.map((answer) => ({
-      text: answer,
-      isCorrect: false,
-    })),
-    ];
-    const shuffledQuest = _.shuffle(answers);
+    const { isAnswersDisabled } = this.props;
+    const { isLoading, actualQuestion, answersOptions, isResponse } = this.state;
 
     return (
       <div>
@@ -98,38 +122,38 @@ class Questions extends Component {
                 <h2
                   data-testid="question-category"
                   dangerouslySetInnerHTML={ {
-                    __html: atualQuestion.category,
+                    __html: actualQuestion.category,
+                  } }
+                />
+                <h4
+                  dangerouslySetInnerHTML={ {
+                    __html: actualQuestion.difficulty,
                   } }
                 />
                 <p
                   data-testid="question-text"
                   dangerouslySetInnerHTML={ {
-                    __html: atualQuestion.question,
+                    __html: actualQuestion.question,
                   } }
                 />
                 {
-                  shuffledQuest.map(({ text, isCorrect }) => {
-                    if (!isCorrect) {
-                      AnswerquestionNumber += 1;
-                    }
-                    return (
-                      <button
-                        id="button_style_sheet"
-                        className={
-                          this.colorChangeClass(answers[0].text, text)
-                        }
-                        onClick={ () => this.setQuestionChosed(text) }
-                        key={ text }
-                        data-testid={
-                          isCorrect ? 'correct-answer'
-                            : `wrong-answer-${AnswerquestionNumber}`
-                        }
-                        // dangerouslySetInnerHTML={ { __html: text } }
-                      >
-                        {text}
-                      </button>
-                    );
-                  })
+                  answersOptions.map(({ text, isCorrect, id }) => (
+                    <button
+                      id="button_style_sheet"
+                      className={
+                        this.changeClassColor(isCorrect)
+                      }
+                      disabled={ isAnswersDisabled }
+                      onClick={ () => this.handleAnswer(isCorrect) }
+                      key={ text }
+                      data-testid={
+                        isCorrect ? 'correct-answer'
+                          : `wrong-answer-${id}`
+                      }
+                    >
+                      {text}
+                    </button>
+                  ))
                 }
               </div>
             )
@@ -144,9 +168,16 @@ class Questions extends Component {
 }
 
 Questions.propTypes = {
+  isAnswersDisabled: PropTypes.bool.isRequired,
+  timeRemaining: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
-    push: PropTypes.func.isRequired,
+    push: PropTypes.func,
   }).isRequired,
 };
 
-export default Questions;
+const mapStateToProps = ({ game }) => ({
+  ...game,
+});
+
+export default connect(mapStateToProps)(Questions);
