@@ -10,7 +10,7 @@ class Header extends Component {
         <img
           data-testid="header-profile-picture"
           src={ gravatarImage }
-          alt="imagem X"
+          alt="Gravatar do perfil"
         />
         <p data-testid="header-player-name">{ name }</p>
         <p data-testid="header-score">{ score }</p>
