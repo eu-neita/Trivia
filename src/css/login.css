@@ -1,86 +1,82 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap') ;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap') ;
 
 .App-link {
   color: #61dafb;
 }
 
 body {
-    text-shadow: 2px 4px 8px  rgb(0, 0, 0);
-    align-items: center;
-    background-color: #282c34;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    font-size: calc(10px + 2vmin);
-    justify-content: center;
-    min-height: 100vh;
-    background-image: linear-gradient(45deg, #a753ed 0%, #6218e1 20%, transparent 80%);
+  align-items: center;
+  background-color: #282c34;
+  background-image: linear-gradient(45deg, #a753ed 0%, #6218e1 20%, transparent 80%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(10px + 2vmin);
+  justify-content: center;
+  min-height: 100vh;
+  text-shadow: 2px 4px 8px black;
+}
+
+button {
+  border-radius: 5px;
+  border-style: none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2) , 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  cursor: grab;
+  font-weight: 800;
+  margin-top: 24px;
+  padding: 12px;
+  text-shadow: none;
+}
+
+button:hover {
+  background-color: #7361fb;
+  color: white;
+  transition: 0.15s;
+}
+
+form {
+  background-color: #282c34;
+  border: solid #7361fb 2px;
+  border-radius: 24px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.331) , 0 6px 20px 0 rgba(0, 0, 0, 0.365);
+  display: flex;
+  flex-direction: column;
+  padding: 48px;
+}
+
+input {
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2) , 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 12px;
+  outline: none;
+  padding: 8px;
+}
+
+label {
+  align-self: start;
+  font-family: Montserrat , Roboto , Arial , sans-serif;
+  font-weight: 800;
+}
+
+
+select {
+  border-radius: 5px;
+  border-style: none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2) , 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  font-weight: 800;
+  margin-top: 24px;
+  padding: 12px;
+}
+
+@keyframes App-logo-spin {
+
+  from {
+    transform: rotate(0deg);
   }
 
-  button {
-    padding: 12px;
-    border-radius: 5px;
-    border-style: none;
-    margin-top: 24px;
-    font-weight: 800;
-    cursor: grab;
-    text-shadow: none;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  to {
+    transform: rotate(360deg);
   }
-  
-  button:hover {
-    background-color: #7361fb;
-    color: white;
-    transition: .15s;
-  }
-  
-  form {
-    background-color: #282c34;
-    display: flex;
-    flex-direction: column;
-    border: solid #7361fb 2px;
-    padding: 48px;
-    border-radius: 24px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.331), 0 6px 20px 0 rgba(0, 0, 0, 0.365);
-  }
-  
-  input {
-    border-radius: 5px;
-    padding: 8px;
-    outline: none;
-    margin-top: 12px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  
-  }
-
-  label {
-    align-self: start;
-    font-family: 'Montserrat', 'Roboto', Arial, sans-serif;
-    font-weight: 800;
-  }
-
-  #name-input-la {
-    margin-top: 24px;
-  }
-
-  select {
-    padding: 12px;
-    border-radius: 5px;
-    border-style: none;
-    margin-top: 24px;
-    font-weight: 800;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  }
-  
-  @keyframes App-logo-spin {
-  
-    from {
-      transform: rotate(0deg);
-    }
-  
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  
+}

@@ -1,8 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap') ;
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap') ;
 
 body {
-  font-family: 'Montserrat', sans-serif;
+  font-family: Montserrat , sans-serif;
 }
 
 .App {
@@ -35,11 +36,11 @@ body {
   color: white;
   display: flex;
   flex-direction: column;
+  font-family: Montserrat , sans-serif;
   font-size: calc(10px + 2vmin);
   justify-content: center;
   min-height: 50vh;
-  font-family: 'Montserrat', sans-serif;
-  text-shadow: 2px 4px 8px  rgb(0, 0, 0);
+  text-shadow: 2px 4px 8px  black;
 }
 
 .App-link {
