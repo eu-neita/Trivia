@@ -1,5 +1,9 @@
 import { combineReducers } from 'redux';
-import { COUNTDOWN, DISABLE_ANSWERS, ENABLE_ANSWERS, PLAYER, SUM_SCORE } from '../actions';
+import {
+  COUNTDOWN,
+  DISABLE_ANSWERS,
+  ENABLE_ANSWERS,
+  PLAYER, SUM_SCORE } from '../actions';
 
 const INITIAL_STATE_PLAYER = {
   gravatarEmail: '',
@@ -26,7 +30,7 @@ const player = (state = INITIAL_STATE_PLAYER, action) => {
     return {
       ...state,
       score: (Number(score) + payload),
-    }
+    };
   default:
     return state;
   }

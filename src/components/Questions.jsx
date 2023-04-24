@@ -33,9 +33,9 @@ class Questions extends Component {
     }, this.handleQuestion);
   };
 
-   handleQuestion = () => {
-    const { questions,  questionNumber } = this.state;
-    const {  dispatch } = this.props;
+  handleQuestion = () => {
+    const { questions, questionNumber } = this.state;
+    const { dispatch } = this.props;
     console.log(this.state);
     const actualQuestion = questions[questionNumber];
     let answersIndex = 0;
@@ -43,16 +43,16 @@ class Questions extends Component {
       text: actualQuestion.correct_answer,
       isCorrect: true,
     }, ...actualQuestion.incorrect_answers.map((answer) => {
-      answersIndex +=1;
+      answersIndex += 1;
       return ({
-      text: answer,
-      isCorrect: false,
-      id: answersIndex,
-    })
-  }),
+        text: answer,
+        isCorrect: false,
+        id: answersIndex,
+      });
+    }),
     ];
     const shuffledAnswers = _.shuffle(answers);
-    this.setState({ 
+    this.setState({
       answersOptions: shuffledAnswers,
       actualQuestion,
     });
@@ -68,14 +68,14 @@ class Questions extends Component {
 
   handleScore = (isCorrect) => {
     const { timeRemaining, dispatch } = this.props;
-    if(!isCorrect) {
+    if (!isCorrect) {
       dispatch(toDisableAnswers());
       return;
-    };
+    }
     const difficultyPoints = { hard: 3, medium: 2, easy: 1 };
-    const { actualQuestion: {difficulty} } = this.state;
+    const { actualQuestion: { difficulty } } = this.state;
     const defaultScore = 10;
-    const score = ( Number(timeRemaining) * difficultyPoints[difficulty]) + defaultScore;
+    const score = (Number(timeRemaining) * difficultyPoints[difficulty]) + defaultScore;
     dispatch(sumScore(score));
     dispatch(toDisableAnswers());
   };
@@ -137,25 +137,23 @@ class Questions extends Component {
                   } }
                 />
                 {
-                  answersOptions.map(({ text, isCorrect, id }) => {
-                    return (
-                      <button
-                        id="button_style_sheet"
-                        className={
-                          this.changeClassColor(isCorrect)
-                        }
-                        disabled={ isAnswersDisabled }
-                        onClick={ () => this.handleAnswer(isCorrect) }
-                        key={ text }
-                        data-testid={
-                          isCorrect ? 'correct-answer'
-                            : `wrong-answer-${id}`
-                        }
-                      >
-                        {text}
-                      </button>
-                    );
-                  })
+                  answersOptions.map(({ text, isCorrect, id }) => (
+                    <button
+                      id="button_style_sheet"
+                      className={
+                        this.changeClassColor(isCorrect)
+                      }
+                      disabled={ isAnswersDisabled }
+                      onClick={ () => this.handleAnswer(isCorrect) }
+                      key={ text }
+                      data-testid={
+                        isCorrect ? 'correct-answer'
+                          : `wrong-answer-${id}`
+                      }
+                    >
+                      {text}
+                    </button>
+                  ))
                 }
               </div>
             )
@@ -173,6 +171,9 @@ Questions.propTypes = {
   isAnswersDisabled: PropTypes.bool.isRequired,
   timeRemaining: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 const mapStateToProps = ({ game }) => ({

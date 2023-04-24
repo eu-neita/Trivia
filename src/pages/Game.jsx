@@ -28,7 +28,7 @@ class Game extends Component {
       <div>
         <Header />
         <main>
-        <Questions history={ history } />
+          <Questions history={ history } />
           <Timer />
         </main>
       </div>

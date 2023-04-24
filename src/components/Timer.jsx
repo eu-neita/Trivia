@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import iconTimer from '../images/iconTimer.svg';
-import { countDown, toDisableAnswers, toEnableAnswers } from '../redux/actions';
+import { countDown, toDisableAnswers } from '../redux/actions';
 
 class Timer extends Component {
-
   componentDidMount() {
     // const { dispatch } = this.props;
     // dispatch(toEnableAnswers());
@@ -20,7 +19,6 @@ class Timer extends Component {
     this.handleTime();
   }
 
-
   handleTime = () => {
     const { dispatch, timeRemaining } = this.props;
     const timeout = 1000;
@@ -32,7 +30,7 @@ class Timer extends Component {
 
     this.timeout = setTimeout(() => {
       const time = (Number(timeRemaining) - 1).toString();
-      dispatch(countDown(time))
+      dispatch(countDown(time));
     }, timeout);
   };
 

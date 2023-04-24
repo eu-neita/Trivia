@@ -37,7 +37,7 @@ class Header extends Component {
 Header.propTypes = {
   name: PropTypes.string.isRequired,
   gravatarEmail: PropTypes.string.isRequired,
-
+  score: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = ({ player }) => ({
