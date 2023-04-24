@@ -3,9 +3,30 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class FeedbackMessage extends Component {
+  handleLocalStorage = () => {
+    const { score, gravatarImage, name } = this.props;
+    const rankingList = JSON.parse(localStorage.getItem('ranking'));
+    const userInfo = { name, score, picture: gravatarImage };
+    if (!rankingList) {
+      localStorage.setItem('ranking', JSON.stringify([userInfo]));
+      return;
+    }
+    const repeatedUser = rankingList.some((user) => user.name === name);
+    if (repeatedUser) {
+      const newRanking = rankingList.map((user) => (
+        user.name === name ? { ...user, score } : user
+      ));
+      localStorage.setItem('ranking', JSON.stringify(newRanking));
+      return;
+    }
+    const newRanking = [...rankingList, userInfo];
+    localStorage.setItem('ranking', JSON.stringify(newRanking));
+  };
+
   render() {
     const { assertions, score } = this.props;
     const idealAssertions = 3;
+    this.handleLocalStorage();
     return (
       <div>
         <p data-testid="feedback-text">
@@ -28,14 +49,18 @@ class FeedbackMessage extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  assertions: state.player.assertions,
-  score: state.player.score,
+const mapStateToProps = ({ player }) => ({
+  assertions: player.assertions,
+  score: player.score,
+  gravatarImage: player.gravatarImage,
+  name: player.name,
 });
 
 FeedbackMessage.propTypes = {
   assertions: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
+  gravatarImage: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
 };
 
 export default connect(mapStateToProps)(FeedbackMessage);
