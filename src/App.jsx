@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun } from '@fortawesome/free-solid-svg-icons';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useLocation } from 'react-router-dom';
 import Login from './pages/Login';
 import Game from './pages/Game';
 import Settings from './pages/Settings';
@@ -10,13 +10,14 @@ import Ranking from './pages/Ranking';
 import './App.css';
 
 export default function App() {
+  const location = useLocation();
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'Darkmode');
 
   useEffect(() => {
     const domSelect = document.getElementsByTagName('form');
     document.body.className = theme;
     if (domSelect.length !== 0) domSelect[0].className = theme;
-  }, [theme]);
+  }, [theme, location]);
 
   const LigthMode = () => {
     const newTheme = theme === 'Darkmode' ? 'LigthMode' : 'Darkmode';
