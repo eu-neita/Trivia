@@ -1,9 +1,5 @@
 import { combineReducers } from 'redux';
-import {
-  COUNTDOWN,
-  DISABLE_ANSWERS,
-  ENABLE_ANSWERS,
-  PLAYER, SAVE_PERSONAL_URL, SUM_SCORE } from '../actions';
+import { PLAYER, SAVE_PERSONAL_URL, SUM_SCORE } from '../actions';
 
 const INITIAL_STATE_PLAYER = {
   gravatarEmail: '',
@@ -15,8 +11,6 @@ const INITIAL_STATE_PLAYER = {
 
 const INITIAL_STATE_GAME = {
   personalUrl: '',
-  isAnswersDisabled: true,
-  timeRemaining: '0',
 };
 
 const player = (state = INITIAL_STATE_PLAYER, action) => {
@@ -45,23 +39,6 @@ const player = (state = INITIAL_STATE_PLAYER, action) => {
 const game = (state = INITIAL_STATE_GAME, action) => {
   const { type, payload } = action;
   switch (type) {
-  case ENABLE_ANSWERS:
-    return {
-      ...state,
-      isAnswersDisabled: false,
-      timeRemaining: '30',
-    };
-  case DISABLE_ANSWERS:
-    return {
-      ...state,
-      isAnswersDisabled: true,
-      timeRemaining: 'Acabou o tempo!',
-    };
-  case COUNTDOWN:
-    return {
-      ...state,
-      timeRemaining: payload,
-    };
   case SAVE_PERSONAL_URL:
     return {
       ...state,
