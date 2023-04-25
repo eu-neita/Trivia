@@ -24,3 +24,16 @@ export const pageFeedback = {
     },
 };
 
+export const localStorageRanking = [
+  {
+  name: "anita",
+  picture: "https://www.gravatar.com/avatar/01e42cd52d9edf8b624aafb5f3a2fde7",
+  score: 110
+}, 
+{
+  name: "trybe",
+  picture: "https://www.gravatar.com/avatar/4675ee57486c6ab9507d64d763ffd4f3",
+  score: 40,
+}
+];
+
