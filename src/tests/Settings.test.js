@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/react";
+import { fireEvent, screen } from "@testing-library/react";
 import userEvent from '@testing-library/user-event';
 import renderWithRouterAndRedux from "./helpers/renderWithRouterAndRedux"
 import App from '../App';
@@ -30,4 +30,19 @@ it('Verifica se a página renderiza o ', () => {
   expect(location.pathname).toBe('/'); 
 });
 
+it('Verifica se ao escolher Categoria, Dificuldade e Tipo nos campos selected... ', () => {   
+  const { getByTestId } = renderWithRouterAndRedux(<App />, {}, '/settings');
+  
+  const optionsCategory = getByTestId('Categoria');
+  fireEvent.change(optionsCategory, { target: { value: 9 } });
+  expect(optionsCategory.value).toBe('9');
+  
+  const optionsDifficulty = getByTestId('Dificuldade');
+  fireEvent.change(optionsDifficulty, { target: { value: 'easy' } });
+  expect(optionsDifficulty.value).toBe('easy');
+
+  const optionsType = getByTestId('Tipo');  
+  fireEvent.change(optionsType, { target: { value: 'boolean' } });
+  expect(optionsType.value).toBe('boolean');
+});
 })
