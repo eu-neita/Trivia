@@ -9,7 +9,7 @@ describe('Testes da página Game', () => {
       json: async () => (invalidApiReturnMock),
     })
 
-    const { history } = renderWithRouterAndRedux(<App />, {}, '/game');
+    renderWithRouterAndRedux(<App />, {}, '/game');
 
     await waitFor(() => {
       expect(screen.queryByTestId('header-profile-picture')).not.toBeInTheDocument();      
