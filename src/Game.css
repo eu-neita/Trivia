@@ -1,11 +1,9 @@
 .incorrect {
   border: 3px solid red;
-  /* color: rgb(0, 0, 0); */
 }
 
 .correct {
   border: 3px solid rgb(6, 240, 15);
-  /* color: rgb(0, 0, 0); */
 }
 
 .option {
