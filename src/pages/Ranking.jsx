@@ -8,7 +8,7 @@ class Ranking extends Component {
   };
 
   render() {
-    const rankingList = JSON.parse(localStorage.getItem('ranking'));
+    const rankingList = JSON.parse(localStorage.getItem('ranking')) || [];
     let userIndex = 0;
     return (
       <main>
