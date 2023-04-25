@@ -5,8 +5,12 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Loading from './Loading';
 import '../Game.css';
-import fetchQuest, { fetchPersonalQuest } from '../services/fetchFunc';
-import { sumScore, toDisableAnswers, toEnableAnswers } from '../redux/actions';
+import iconTimer from '../images/iconTimer.svg';
+import { fetchPersonalQuest, fetchQuest } from '../services/fetchFunc';
+import { sumScore } from '../redux/actions';
+
+const TIMEOUT_NUMBER = 1000;
+const TIMER_MESSAGE = 'Acabou o tempo!';
 
 class Questions extends Component {
   state = {
@@ -15,13 +19,39 @@ class Questions extends Component {
     questionNumber: 0,
     actualQuestion: {},
     answersOptions: [],
-    // questionChosed: '',
+    isAnswersDisabled: false,
     isResponse: false,
+    time: 30,
+    timer: null,
   };
 
   componentDidMount() {
     this.questionRequest();
   }
+
+  handleTimer = () => {
+    const timer = setInterval(() => {
+      const { time } = this.state;
+      this.setState((prevState) => ({ time: prevState.time - 1 }), () => {
+        if (time === 0) {
+          clearInterval(timer);
+          this.setState({
+            time: TIMER_MESSAGE,
+            isAnswersDisabled: true,
+          });
+        }
+      });
+    }, TIMEOUT_NUMBER);
+    this.setState({ timer });
+  };
+
+  handleClearTimer = () => {
+    const { timer } = this.state;
+    clearInterval(timer);
+    this.setState({
+      time: 30,
+    });
+  };
 
   questionRequest = async () => {
     const { personalUrl } = this.props;
@@ -39,49 +69,59 @@ class Questions extends Component {
   };
 
   handleQuestion = () => {
+    this.handleClearTimer();
     const { questions, questionNumber } = this.state;
-    const { dispatch } = this.props;
     const actualQuestion = questions[questionNumber];
     let answersIndex = 0;
     const answers = [{
       text: actualQuestion.correct_answer,
       isCorrect: true,
     }, ...actualQuestion.incorrect_answers.map((answer) => {
-      answersIndex += 1;
-      return ({
+      const answerObj = {
         text: answer,
         isCorrect: false,
         id: answersIndex,
-      });
+      };
+      answersIndex += 1;
+      return answerObj;
     }),
     ];
     const shuffledAnswers = _.shuffle(answers);
     this.setState({
       answersOptions: shuffledAnswers,
       actualQuestion,
+      isAnswersDisabled: false,
     });
-    dispatch(toEnableAnswers());
+    this.handleTimer();
   };
 
   handleAnswer = (isCorrect) => {
+    const { timer } = this.state;
     this.handleScore(isCorrect);
+    clearInterval(timer);
     this.setState({
       isResponse: true,
+      time: TIMER_MESSAGE,
     });
   };
 
   handleScore = (isCorrect) => {
-    const { timeRemaining, dispatch } = this.props;
+    const { dispatch } = this.props;
+    const { time } = this.state;
     if (!isCorrect) {
-      dispatch(toDisableAnswers());
+      this.setState({
+        isAnswersDisabled: true,
+      });
       return;
     }
     const difficultyPoints = { hard: 3, medium: 2, easy: 1 };
     const { actualQuestion: { difficulty } } = this.state;
     const defaultScore = 10;
-    const score = (Number(timeRemaining) * difficultyPoints[difficulty]) + defaultScore;
+    const score = (Number(time) * difficultyPoints[difficulty]) + defaultScore;
     dispatch(sumScore(score));
-    dispatch(toDisableAnswers());
+    this.setState({
+      isAnswersDisabled: true,
+    });
   };
 
   nextQuestion = () => {
@@ -90,10 +130,6 @@ class Questions extends Component {
     const maxIndex = 4;
     if (questionNumber < maxIndex) {
       const newQuestionNumber = questionNumber + 1;
-      // this.setState((prevState) => ({
-      //   questionNumber: prevState.questionNumber + 1,
-      //   isResponse: false,
-      // }, this.handleQuestion));
       this.setState({
         questionNumber: newQuestionNumber,
         isResponse: false,
@@ -113,8 +149,8 @@ class Questions extends Component {
   };
 
   render() {
-    const { isAnswersDisabled, timeRemaining } = this.props;
-    const { isLoading, actualQuestion, answersOptions, isResponse } = this.state;
+    const { isLoading, actualQuestion,
+      answersOptions, isResponse, isAnswersDisabled, time } = this.state;
 
     return (
       <div>
@@ -162,8 +198,12 @@ class Questions extends Component {
               </div>
             )
         }
+        <section>
+          <img src={ iconTimer } alt="Timer" />
+          { time === TIMER_MESSAGE ? TIMER_MESSAGE : `Tempo: ${time} s` }
+        </section>
         {
-          (isResponse || timeRemaining === 'Acabou o tempo!')
+          (isResponse || time === TIMER_MESSAGE)
            && <button data-testid="btn-next" onClick={ this.nextQuestion }>Next</button>
         }
       </div>
@@ -173,8 +213,6 @@ class Questions extends Component {
 
 Questions.propTypes = {
   personalUrl: PropTypes.string.isRequired,
-  isAnswersDisabled: PropTypes.bool.isRequired,
-  timeRemaining: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,

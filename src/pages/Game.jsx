@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
-import Timer from '../components/Timer';
 import Questions from '../components/Questions';
-import fetchQuest from '../services/fetchFunc';
+import { fetchQuest } from '../services/fetchFunc';
 import '../Game.css';
 
 class Game extends Component {
@@ -34,7 +33,6 @@ class Game extends Component {
         <Header />
         <main>
           <Questions history={ history } />
-          <Timer />
         </main>
       </div>
     );
