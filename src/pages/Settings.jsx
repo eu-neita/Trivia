@@ -43,6 +43,7 @@ class Settings extends Component {
           <select
             defaultValue="Categoria"
             name="category"
+            data-testid="Categoria"
             onChange={ this.handlePersonalSettings }
           >
             <option disabled>Categoria</option>
@@ -52,6 +53,7 @@ class Settings extends Component {
           </select>
           <select
             defaultValue="Dificuldade"
+            data-testid="Dificuldade"
             name="difficulty"
             onChange={ this.handlePersonalSettings }
           >
@@ -62,6 +64,7 @@ class Settings extends Component {
           </select>
           <select
             defaultValue="Tipo"
+            data-testid="Tipo"
             name="type"
             onChange={ this.handlePersonalSettings }
           >

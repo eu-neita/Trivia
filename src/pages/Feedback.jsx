@@ -14,22 +14,23 @@ class Feedback extends Component {
       <>
         <Header />
         <FeedbackMessage />
+        <div>
+          <button
+            type="button"
+            onClick={ () => this.btnRedirect('/') }
+            data-testid="btn-play-again"
+          >
+            Play Again
+          </button>
 
-        <button
-          type="button"
-          onClick={ () => this.btnRedirect('/') }
-          data-testid="btn-play-again"
-        >
-          Play Again
-        </button>
-
-        <button
-          type="button"
-          onClick={ () => this.btnRedirect('/ranking') }
-          data-testid="btn-ranking"
-        >
-          Ranking
-        </button>
+          <button
+            type="button"
+            onClick={ () => this.btnRedirect('/ranking') }
+            data-testid="btn-ranking"
+          >
+            Ranking
+          </button>
+        </div>
       </>
     );
   }
