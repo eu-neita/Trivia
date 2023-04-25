@@ -1,22 +1,12 @@
 .incorrect {
-  border: 3px solid rgb(255, 0, 0);
+  border: 3px solid red;
   /* color: rgb(0, 0, 0); */
 }
-
-/* .incorrect:disabled:hover {
-  background-color: rgb(255, 0, 0);
-  color: rgb(0, 0, 0);
-} */
 
 .correct {
   border: 3px solid rgb(6, 240, 15);
   /* color: rgb(0, 0, 0); */
 }
-
-/* .correct:disabled:hover {
-  background-color: rgb(6, 240, 15);
-  color: rgb(0, 0, 0);
-} */
 
 .option {
   border: 1px solid rgb(73, 69, 69);
