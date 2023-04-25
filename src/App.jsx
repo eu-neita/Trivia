@@ -9,7 +9,7 @@ import Feedback from './pages/Feedback';
 import Ranking from './pages/Ranking';
 import './App.css';
 
-export default async function App() {
+export default function App() {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'Darkmode');
 
   useEffect(() => {
