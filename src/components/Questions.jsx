@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Loading from './Loading';
 import '../Game.css';
-import fetchQuest from '../services/fetchFunc';
+import fetchQuest, { fetchPersonalQuest } from '../services/fetchFunc';
 import { sumScore, toDisableAnswers, toEnableAnswers } from '../redux/actions';
 
 class Questions extends Component {
@@ -24,8 +24,14 @@ class Questions extends Component {
   }
 
   questionRequest = async () => {
-    const fetch = await fetchQuest();
-    const data = await fetch.json();
+    const { personalUrl } = this.props;
+    let data;
+    if (personalUrl) {
+      data = await fetchPersonalQuest(personalUrl);
+    } else {
+      const fetch = await fetchQuest();
+      data = await fetch.json();
+    }
     this.setState({
       questions: data.results,
       isLoading: false,
@@ -82,7 +88,6 @@ class Questions extends Component {
     const { questionNumber } = this.state;
     const { history } = this.props;
     const maxIndex = 4;
-    console.log(questionNumber);
     if (questionNumber < maxIndex) {
       const newQuestionNumber = questionNumber + 1;
       // this.setState((prevState) => ({
@@ -108,7 +113,7 @@ class Questions extends Component {
   };
 
   render() {
-    const { isAnswersDisabled } = this.props;
+    const { isAnswersDisabled, timeRemaining } = this.props;
     const { isLoading, actualQuestion, answersOptions, isResponse } = this.state;
 
     return (
@@ -158,7 +163,7 @@ class Questions extends Component {
             )
         }
         {
-          isResponse
+          (isResponse || timeRemaining === 'Acabou o tempo!')
            && <button data-testid="btn-next" onClick={ this.nextQuestion }>Next</button>
         }
       </div>
@@ -167,6 +172,7 @@ class Questions extends Component {
 }
 
 Questions.propTypes = {
+  personalUrl: PropTypes.string.isRequired,
   isAnswersDisabled: PropTypes.bool.isRequired,
   timeRemaining: PropTypes.string.isRequired,
   dispatch: PropTypes.func.isRequired,
