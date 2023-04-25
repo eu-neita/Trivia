@@ -47,6 +47,42 @@ body {
   color: #61dafb;
 }
 
+.LigthMode {
+  background-color: #d4e0f9;
+}
+
+.Darkmode {
+  background-color: #282c34;
+}
+
+.LigthMode-btn {
+  background-color: #d4e0f9;
+  color: black;
+}
+
+.Darkmode-btn {
+  background-color: #282c34;
+  color: white;
+}
+
+.button-sun {
+  align-items: center;
+  border-radius: 5px;
+  border-style: none;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2) , 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  cursor: grab;
+  flex-direction: column;
+  font-weight: 800;
+  margin-top: 24px;
+  padding: 5px 15px;
+}
+
+.button-sun:hover {
+  background-color: #7361fb;
+  color: white;
+  transition: 0.15s;
+}
+
 @keyframes shake {
 
   10%, 90% {
