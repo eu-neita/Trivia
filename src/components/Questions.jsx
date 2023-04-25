@@ -26,7 +26,6 @@ class Questions extends Component {
   questionRequest = async () => {
     const fetch = await fetchQuest();
     const data = await fetch.json();
-    console.log(data);
     this.setState({
       questions: data.results,
       isLoading: false,
