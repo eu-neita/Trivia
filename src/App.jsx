@@ -31,8 +31,8 @@ export default function App() {
       <FontAwesomeIcon
         id=""
         icon={ faSun }
-        className={ theme === 'Darkmode' ? 'LigthMode-btn button-sun'
-          : 'Darkmode-btn button-sun' }
+        className={ theme === 'Darkmode' ? 'button-sun LigthMode-btn'
+          : 'button-sun Darkmode-btn' }
         onClick={ LigthMode }
       />
     </div>
