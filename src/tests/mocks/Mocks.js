@@ -9,3 +9,18 @@ export const errorTokenMock = {
   "response_message": "Token Failed!",
   "token": ""
 };
+
+export const pageFeedback = {
+    player: {
+      gravatarEmail: 'anita@email.com',
+      gravatarImage: 'https://www.gravatar.com/avatar/01e42cd52d9edf8b624aafb5f3a2fde7',
+      name: 'anita',
+      score: 198,
+      assertions: 4
+    },
+    game: {
+      isAnswersDisabled: true,
+      timeRemaining: 'Acabou o tempo!'
+    },
+};
+
