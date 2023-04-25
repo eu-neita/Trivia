@@ -5,10 +5,10 @@ import iconTimer from '../images/iconTimer.svg';
 import { countDown, toDisableAnswers } from '../redux/actions';
 
 class Timer extends Component {
-  componentDidMount() {
-    // const { dispatch } = this.props;
-    // dispatch(toEnableAnswers());
-  }
+  // componentDidMount() {
+  // const { dispatch } = this.props;
+  // dispatch(toEnableAnswers());
+  // }
 
   componentDidUpdate() {
     const { timeRemaining } = this.props;

@@ -113,7 +113,7 @@ class Questions extends Component {
   };
 
   render() {
-    const { isAnswersDisabled } = this.props;
+    const { isAnswersDisabled, timeRemaining } = this.props;
     const { isLoading, actualQuestion, answersOptions, isResponse } = this.state;
 
     return (
@@ -163,7 +163,7 @@ class Questions extends Component {
             )
         }
         {
-          isResponse
+          (isResponse || timeRemaining === 'Acabou o tempo!')
            && <button data-testid="btn-next" onClick={ this.nextQuestion }>Next</button>
         }
       </div>
