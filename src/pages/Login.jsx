@@ -56,6 +56,7 @@ class Login extends React.Component {
 
   render() {
     const { email, name, isValidateButton } = this.state;
+
     return (
       <div>
         <header className="App-header">
