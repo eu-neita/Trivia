@@ -31,8 +31,8 @@ button {
 }
 
 button:hover {
-  background-color: #7361fb;
-  color: white;
+  background-color: #eece3e;
+  color: rgb(48, 45, 45);
   transition: 0.15s;
 }
 

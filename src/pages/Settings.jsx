@@ -34,9 +34,7 @@ class Settings extends Component {
   };
 
   render() {
-    const categoriesItems = categoriesOp.map(({ name }) => name);
-    // console.log(this.state);
-    let categoryID = 9;
+    const categoriesItems = categoriesOp;
     return (
       <div>
         <img src={ logotrivia } alt="logo trivia" />
@@ -48,12 +46,9 @@ class Settings extends Component {
             onChange={ this.handlePersonalSettings }
           >
             <option disabled>Categoria</option>
-            { categoriesItems.map((item) => {
-              categoryID += 1;
-              return (
-                <option key={ item } value={ categoryID }>{item}</option>
-              );
-            })}
+            { categoriesItems.map(({ id, name }) => (
+              <option key={ id } value={ id }>{name}</option>
+            ))}
           </select>
           <select
             defaultValue="Dificuldade"
