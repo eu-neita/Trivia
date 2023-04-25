@@ -3,7 +3,7 @@ import {
   COUNTDOWN,
   DISABLE_ANSWERS,
   ENABLE_ANSWERS,
-  PLAYER, SUM_SCORE } from '../actions';
+  PLAYER, SAVE_PERSONAL_URL, SUM_SCORE } from '../actions';
 
 const INITIAL_STATE_PLAYER = {
   gravatarEmail: '',
@@ -14,6 +14,7 @@ const INITIAL_STATE_PLAYER = {
 };
 
 const INITIAL_STATE_GAME = {
+  personalUrl: '',
   isAnswersDisabled: true,
   timeRemaining: '0',
 };
@@ -60,6 +61,11 @@ const game = (state = INITIAL_STATE_GAME, action) => {
     return {
       ...state,
       timeRemaining: payload,
+    };
+  case SAVE_PERSONAL_URL:
+    return {
+      ...state,
+      personalUrl: payload,
     };
   default:
     return state;

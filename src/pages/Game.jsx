@@ -13,10 +13,15 @@ class Game extends Component {
 
   responseVerify = async () => {
     const ERROR_CODE = 3;
+    const INVALID_REQUEST = 1;
     const fetch = await fetchQuest();
     const data = await fetch.json();
     if (data.response_code === ERROR_CODE) {
       localStorage.removeItem('token');
+      const { history } = this.props;
+      return history.push('/');
+    }
+    if (data.response_code === INVALID_REQUEST) {
       const { history } = this.props;
       return history.push('/');
     }

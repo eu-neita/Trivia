@@ -1,52 +1,91 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import logotrivia from '../images/logotrivia.svg';
+import categoriesOp from '../services/categoriesOp.json';
+import { savePersonalURL } from '../redux/actions';
 
-class Configuracoes extends Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     categories: [],
-  //   };
-  // }
+class Settings extends Component {
+  constructor() {
+    super();
+    this.state = {
+      category: 'any',
+      difficulty: 'any',
+      type: 'any',
+    };
+  }
 
-  // componentDidMount() {
-  //   this.handleCategories();
-  // }
+  handlePersonalSettings = ({ target }) => {
+    const { name, value } = target;
+    this.setState({
+      [name]: value,
+    });
+  };
 
-  // handleCategories = async () => {
-  //   const response = await fetch('https://opentdb.com/api_category.php');
-  //   const data = await response.json();
-  //   const categoriesResult = data.trivia_categories;
-  //   const categoriesItems = categoriesResult.map(({ name }) => name);
-  //   this.setState({ categories: categoriesItems });
-  // };
+  handleApplyBtn = () => {
+    const { category, difficulty, type } = this.state;
+    const { dispatch, history } = this.props;
+    const categoryKey = category === 'any' ? '' : `&category=${category}`;
+    const difficultyKey = difficulty === 'any' ? '' : `&difficulty=${difficulty}`;
+    const typeKey = type === 'any' ? '' : `&type=${type}`;
+    const personalURL = categoryKey + difficultyKey + typeKey;
+    dispatch(savePersonalURL(personalURL));
+    history.push('/');
+  };
 
   render() {
-    // const { categories } = this.state;
+    const categoriesItems = categoriesOp.map(({ name }) => name);
+    // console.log(this.state);
+    let categoryID = 9;
     return (
       <div>
         <img src={ logotrivia } alt="logo trivia" />
         <h1 data-testid="settings-title">Configurações</h1>
         <form>
-          <select defaultValue="Categoria">
+          <select
+            defaultValue="Categoria"
+            name="category"
+            onChange={ this.handlePersonalSettings }
+          >
             <option disabled>Categoria</option>
-            {/* { categories.map((item) => (<option key={ item }>{item}</option>))} */}
+            { categoriesItems.map((item) => {
+              categoryID += 1;
+              return (
+                <option key={ item } value={ categoryID }>{item}</option>
+              );
+            })}
           </select>
-          <select defaultValue="Dificuldade">
+          <select
+            defaultValue="Dificuldade"
+            name="difficulty"
+            onChange={ this.handlePersonalSettings }
+          >
             <option disabled>Dificuldade</option>
-            <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
           </select>
-          <select defaultValue="Tipo">
+          <select
+            defaultValue="Tipo"
+            name="type"
+            onChange={ this.handlePersonalSettings }
+          >
             <option disabled>Tipo</option>
-            <option value="Multiple Choice">Multiple Choice</option>
-            <option value="True / False">True / False</option>
+            <option value="multiple">Multiple Choice</option>
+            <option value="boolean">True / False</option>
           </select>
+          <button type="button" onClick={ this.handleApplyBtn }>Aplicar</button>
         </form>
       </div>
     );
   }
 }
 
-export default Configuracoes;
+Settings.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
+
+export default connect()(Settings);
