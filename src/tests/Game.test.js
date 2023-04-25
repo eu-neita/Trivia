@@ -1,5 +1,5 @@
 import { screen, waitFor } from "@testing-library/react";
-import { initialStateMock, invalidApiReturnMock, successfulApiReturnMock, timerGame } from "./mocks/gameMocks"
+import { initialStateMock, invalidApiReturnMock, invalidRequestMock, successfulApiReturnMock, timerGame } from "./mocks/gameMocks"
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 import App from '../App';
 
@@ -9,7 +9,20 @@ describe('Testes da página Game', () => {
       json: async () => (invalidApiReturnMock),
     })
 
-    const { history } = renderWithRouterAndRedux(<App />, {}, '/game');
+    renderWithRouterAndRedux(<App />, {}, '/game');
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('header-profile-picture')).not.toBeInTheDocument();      
+      expect(screen.getByLabelText(/email/i)).toBeInTheDocument();      
+    })
+  });
+
+  test('Testa se não houver perguntas suficientes para a configuração desejada, ele é redirecionado para a página de login', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      json: async () => (invalidRequestMock),
+    })
+
+   renderWithRouterAndRedux(<App />, {}, '/game');
 
     await waitFor(() => {
       expect(screen.queryByTestId('header-profile-picture')).not.toBeInTheDocument();      

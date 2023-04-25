@@ -3,6 +3,11 @@ export const invalidApiReturnMock = {
   results: [],
 };
 
+export const invalidRequestMock = {
+  response_code: 1,
+  results: [],
+};
+
 export const successfulApiReturnMock = {
   "response_code": 0,
   "results": [
