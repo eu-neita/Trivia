@@ -49,10 +49,12 @@ body {
 
 .LigthMode {
   background-color: #d4e0f9;
+  transition: 0.2s;
 }
 
 .Darkmode {
   background-color: #282c34;
+  transition: 0.2s;
 }
 
 .LigthMode-btn {
