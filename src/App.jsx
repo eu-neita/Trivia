@@ -17,10 +17,10 @@ export default function App() {
     const domSelect = document.getElementsByTagName('form');
     document.body.className = theme;
     if (domSelect.length !== 0) domSelect[0].className = theme;
-    const divSelect = document.getElementsByTagName('section');
+    const divSelect = document.getElementsByClassName('cards');
     if (location.pathname === '/ranking') {
       Array.from(divSelect).forEach((item) => {
-        item.className = `${theme} box-points`;
+        item.className = `${theme} cards`;
       });
     }
   }, [theme, location]);
