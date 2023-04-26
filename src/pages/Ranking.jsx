@@ -13,11 +13,11 @@ class Ranking extends Component {
     return (
       <main>
         <h1 data-testid="ranking-title">Ranking</h1>
-        <section>
+        <div>
           { rankingList.sort((a, b) => b.score - a.score)
             .map(({ name, score, picture }) => {
               const userElement = (
-                <div key={ name }>
+                <section className="box-points" key={ name }>
                   <img src={ picture } alt={ name } />
                   <h5 data-testid={ `player-name-${userIndex}` }>{name}</h5>
                   <span
@@ -25,12 +25,12 @@ class Ranking extends Component {
                   >
                     {`${score} pontos`}
                   </span>
-                </div>
+                </section>
               );
               userIndex += 1;
               return userElement;
             })}
-        </section>
+        </div>
         <button
           data-testid="btn-go-home"
           onClick={ this.handleClick }
