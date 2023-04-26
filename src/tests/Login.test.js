@@ -89,4 +89,14 @@ describe('Testes da página de App', () => {
     expect(selects[2].value).toBe('Tipo');
     expect(screen.getByRole('heading', { level: 1, name: /configurações/i })).toBeInTheDocument();
   });
+
+  test('Testa o tema da página', () => {
+    renderWithRouterAndRedux(<App />);
+    const themeMode = screen.getByTestId('theme');
+    expect(document.body.className).toBe('Darkmode');
+    userEvent.click(themeMode);
+    expect(document.body.className).toBe('LigthMode');
+    userEvent.click(themeMode);
+    expect(document.body.className).toBe('Darkmode');
+  });
 })

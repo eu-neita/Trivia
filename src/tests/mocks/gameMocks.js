@@ -77,8 +77,8 @@ export const successfulApiReturnMock = {
 export const initialStateMock = {
   player: {
     gravatarEmail: 'teste@teste.com',
-    gravatarImage: 'https://www.gravatar.com/avatar/ce11fce876c93ed5d2a72da660496473',
-    name: 'Eduardo',
+    gravatarImage: 'https://www.gravatar.com/avatar/01e42cd52d9edf8b624aafb5f3a2fde7',
+    name: 'anita',
     score: 0,
     assertions: 0
   },
@@ -86,12 +86,4 @@ export const initialStateMock = {
     isAnswersDisabled: true,
     timeRemaining: '30'
   }
-}
-
-export const timerGame = (callback) => {
-  console.log('Ready....go!');
-  setTimeout(() => {
-    console.log("Time's up -- stop!");
-    callback && callback();
-  }, 30000);
 }

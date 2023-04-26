@@ -40,6 +40,7 @@ export default function App() {
         className={ theme === 'Darkmode' ? 'button-sun LigthMode-btn'
           : 'button-sun Darkmode-btn' }
         onClick={ LigthMode }
+        data-testid="theme"
       />
     </div>
   );

@@ -1,9 +1,12 @@
 import { screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { initialStateMock, invalidApiReturnMock, invalidRequestMock, successfulApiReturnMock, timerGame } from "./mocks/gameMocks"
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
+import { localStorageRanking } from "./mocks/Mocks";
 import App from '../App';
 
 describe('Testes da página Game', () => {
+  jest.useFakeTimers();
   test('Testa se ao entrar na página Game com um token inválido, ele é redirecionado para a página de login', async () => {
     jest.spyOn(global, 'fetch').mockResolvedValue({
       json: async () => (invalidApiReturnMock),
@@ -43,7 +46,7 @@ describe('Testes da página Game', () => {
 
     expect(screen.getByTestId('header-profile-picture')).toBeInTheDocument();      
     const playerNameEL = screen.getByTestId('header-player-name');
-    expect(playerNameEL.innerHTML).toBe('Eduardo');
+    expect(playerNameEL.innerHTML).toBe('anita');
     
     expect(screen.getByRole('heading', {
       name: /Entertainment: Video Games/i,
@@ -60,21 +63,86 @@ describe('Testes da página Game', () => {
     expect(btnFalse).toHaveLength(3);
   });
 
-  jest.useFakeTimers();
-  test('Testa se ao entrar na página, uma pergunta é renderizada e as opções aparecem corretamente', async () => {
+  test('Testa se ao passar 30 segundos, os botões das respostas são desabilitados', async () => {
     jest.spyOn(global, 'fetch').mockResolvedValue({
       json: async () => (successfulApiReturnMock),
     })
-    jest.spyOn(global, 'setInterval')
-    timerGame(() => console.log('Executou depois dos 30s do timer'));
 
     renderWithRouterAndRedux(<App />, initialStateMock, '/game');
 
     await waitFor(() => {
       expect(screen.queryByText('Carregando...')).not.toBeInTheDocument();
     })
+
+    expect(screen.getByText(/tempo/i)).toHaveTextContent('30');
+
+    jest.advanceTimersByTime(30000)
+
     
-    jest.advanceTimersByTime(30000);
-    const firstAnswerBtn = screen.getByRole('button', { name: /unreal/i });
+    await waitFor(() => {
+      expect(screen.getByText(/acabou o tempo/i)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /unreal/i })).toBeDisabled();
+    })
+  });
+
+  test('Testa o fluxo de clicar nas questões da página game', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      json: async () => (successfulApiReturnMock),
+    })
+
+    localStorage.setItem('ranking', JSON.stringify(localStorageRanking));
+
+    renderWithRouterAndRedux(<App />, initialStateMock, '/game');
+
+    await waitFor(() => {
+      expect(screen.queryByText('Carregando...')).not.toBeInTheDocument();
+    })
+
+    jest.advanceTimersByTime(4000)
+    
+    await waitFor(() => {
+      const firstAnswer = screen.getByRole('button', { name: /unreal/i }); /* 25s */
+      userEvent.click(firstAnswer);
+      userEvent.click(screen.getByRole('button', { name: /next/i }));
+    })
+
+    jest.advanceTimersByTime(5000)
+
+    
+    await waitFor(() => {
+      const secondAnswer = screen.getByRole('button', { name: '20' }); /* 25 errado */
+      userEvent.click(secondAnswer);
+      userEvent.click(screen.getByRole('button', { name: /next/i }));
+    })
+
+    jest.advanceTimersByTime(10000)
+
+    
+    await waitFor(() => {
+      const thirdAnswer = screen.getByRole('button', { name: 'WiFi Tears' }); /* 20s */
+      userEvent.click(thirdAnswer);
+      userEvent.click(screen.getByRole('button', { name: /next/i }));
+    })
+
+    jest.advanceTimersByTime(15000)
+
+    
+    await waitFor(() => {
+      const fourthAnswer = screen.getByRole('button', { name: 'November 5th' }); /* 15s */
+      userEvent.click(fourthAnswer);
+      userEvent.click(screen.getByRole('button', { name: /next/i }));
+    })
+
+    jest.advanceTimersByTime(15000)
+
+    
+    await waitFor(() => {
+      const fifthAnswer = screen.getByRole('button', { name: 'Wayward Cave' }); /* 15s errado */
+      userEvent.click(fifthAnswer);
+      userEvent.click(screen.getByRole('button', { name: /next/i }));
+    })
+
+    const message = screen.getByText(/well done/i);
+    expect(message).toBeInTheDocument();
   });
 });
