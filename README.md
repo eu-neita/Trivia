@@ -1,10 +1,15 @@
-# :construction: README em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto.
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+# Boas vindas ao Trivia
+## Orientações
+
+<details>
+  <summary><strong>‼️ Antes de executar em Sua máquina</strong></summary><br />
+
+- Faça um clone do projeto [tutorial de como realizar um fork]([https://guides.github.com/activities/forking/](https://docs.github.com/pt/repositories/creating-and-managing-repositories/cloning-a-repository)).
+
+- Após fazer o clone instale dependencias do node e para isso deve-se utilizar a versão node 18
+
+- Rode o comando `npm i`.
+
+- Vá para a branch `main` do projeto e execute o comando npm start.
+
+</details>
